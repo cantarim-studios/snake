@@ -2,7 +2,7 @@ class Player:
     x = []
     y = []
     step = 32
-    direction = 0
+    direction = 0 # TODO: Can this become an enum?
     length = 3
 
     updateCountMax = 2
@@ -29,7 +29,7 @@ class Player:
                 self.x[i] = self.x[i-1]
                 self.y[i] = self.y[i-1]
 
-            #update position of the head of the snake
+            # update position of the head of the snake
             if self.direction == 0:
                 if(self.x[0] + self.step >= 800):
                     self.x[0] = 0
@@ -57,16 +57,20 @@ class Player:
             self.updateCount = 0
 
     def moveRight(self):
-        self.direction = 0
+        if(self.direction != 1):
+            self.direction = 0
 
     def moveLeft(self):
-        self.direction = 1
+        if(self.direction != 0):
+            self.direction = 1
 
     def moveUp(self):
-        self.direction = 2
+        if(self.direction != 3):
+            self.direction = 2
 
     def moveDown(self):
-        self.direction = 3
+        if(self.direction != 4):
+            self.direction = 3
 
     def draw(self, surface, image):
         for i in range(0, self.length):

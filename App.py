@@ -39,14 +39,14 @@ class App:
 
         # apple eating logic
         for i in range(0, self.player.length):
-            if self.game.isCollision(self.apple.x, self.apple.y, self.player.x[i], self.player.y[i], 40):
+            if self.game.isCollision(self.apple.x, self.apple.y, self.player.x[i], self.player.y[i], 32):
              self.apple.x = randint(2,24) * 32
              self.apple.y = randint(2,16) * 32
              self.player.length = self.player.length + 1
 
         # snake body collision logic
         for i in range(2, self.player.length):
-            if self.game.isCollision(self.player.x[0], self.player.y[0], self.player.x[i], self.player.y[i], 28):
+            if self.game.isCollision(self.player.x[0] + 2, self.player.y[0] + 2, self.player.x[i] + 2, self.player.y[i] + 2, 28):
                 print('You lose!')
                 exit(0)
 
