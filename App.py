@@ -1,5 +1,6 @@
 from pygame.locals import *
 import pygame
+import time
 from Player import Player
 
 class App:
@@ -12,7 +13,7 @@ class App:
         self._running = True
         self._display_surf = None
         self._image_surf = None
-        self.player = Player()
+        self.player = Player(10)
 
     def on_init(self):
         pygame.init()
@@ -27,11 +28,12 @@ class App:
             self._running = False
     
     def on_loop(self):
+        self.player.update()
         pass
 
     def on_render(self):
         self._display_surf.fill((0,0,0))
-        self._display_surf.blit(self._image_surf, (self.player.x, self.player.y))
+        self.player.draw(self._display_surf, self._image_surf)
         pygame.display.flip()
 
     def on_cleanup(self):
@@ -41,7 +43,7 @@ class App:
         if self.on_init() == False:
             self._running = False
 
-        while( self._running ):
+        while(self._running):
             pygame.event.pump()
             keys = pygame.key.get_pressed()
 
@@ -62,6 +64,8 @@ class App:
 
             self.on_loop()
             self.on_render()
+
+            time.sleep(50.0 / 1000.0)
         self.on_cleanup()
 
 if __name__ == '__main__' :
