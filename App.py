@@ -1,7 +1,10 @@
 from pygame.locals import *
+from random import randint
 import pygame
 import time
+from Game import Game
 from Player import Player
+from Apple import Apple
 
 class App:
 
@@ -13,7 +16,10 @@ class App:
         self._running = True
         self._display_surf = None
         self._image_surf = None
-        self.player = Player(10)
+        self._apple_surf = None
+        self.game = Game()
+        self.player = Player(3)
+        self.apple = Apple(5,5)
 
     def on_init(self):
         pygame.init()
@@ -22,6 +28,7 @@ class App:
         pygame.display.set_caption('SNAKE by CANTARIM STUDIOS')
         self._running = True
         self._image_surf = pygame.image.load('snake.png').convert()
+        self._apple_surf = pygame.image.load('apple.png')
 
     def on_event(self, event):
         if event.type == QUIT:
@@ -29,11 +36,26 @@ class App:
     
     def on_loop(self):
         self.player.update()
+
+        # apple eating logic
+        for i in range(0, self.player.length):
+            if self.game.isCollision(self.apple.x, self.apple.y, self.player.x[i], self.player.y[i], 40):
+             self.apple.x = randint(2,24) * 32
+             self.apple.y = randint(2,16) * 32
+             self.player.length = self.player.length + 1
+
+        # snake body collision logic
+        for i in range(2, self.player.length):
+            if self.game.isCollision(self.player.x[0], self.player.y[0], self.player.x[i], self.player.y[i], 28):
+                print('You lose!')
+                exit(0)
+
         pass
 
     def on_render(self):
         self._display_surf.fill((0,0,0))
         self.player.draw(self._display_surf, self._image_surf)
+        self.apple.draw(self._display_surf, self._apple_surf)
         pygame.display.flip()
 
     def on_cleanup(self):
